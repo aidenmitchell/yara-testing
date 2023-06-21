@@ -4,10 +4,9 @@ rule HTML_EXCESSIVE_PADDING {
         date = "2023-06-21"
 
     strings:
-        $break1 = { 0D } // \r
-        $break2 = { 0A } // \n
+        $breaks = /(\r\n){150,}|\n{150,}/
         $js_pattern = { 5F 30 78 } // _0x
 
     condition:
-        (#break1 >= 100 or #break2 >= 100) and #js_pattern >= 50
+        $breaks at 0 and #js_pattern >= 50
 }
